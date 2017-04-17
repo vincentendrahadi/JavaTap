@@ -1,0 +1,14 @@
+Variabel aaBBB, diawali dengan huruf kecil dan kata kedua dengan Huruf Kapital
+Konstanta AAAA, semua huruf kapital
+kelas, GrowStack, awal kata dengan huruf kapital
+fungsi setPoint, kata pertama huruf kecil ,kata kedua dst diawali dengan huruf kapital
+
+
+
+Konvensi Code
+
+- Setelah if,while,for,dkk diisini dengan spasi
+  contoh : if (a < b)
+- Sebelum dan sesudah operator terdapat spasi
+- Kurung kurawal pada line yang sama dengan fungsi
+  contoh : if (a < b) {
