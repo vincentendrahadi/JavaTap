@@ -1,11 +1,13 @@
-package View;
+package view;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
-import MainCharacter.Player.Player;
+import maincharacter.player.Player;
 
 
 /**
@@ -38,10 +40,6 @@ public class View_Shop extends JFrame {
     private static boolean fearUnlocked = false;
 
     private static boolean build = false;
-
-    public static void main(String[] args) {
-        new View_Shop();
-    }
 
     public static void setFrameShop(JFrame frameShop) {
         View_Shop.frameShop = frameShop;
@@ -123,7 +121,56 @@ public class View_Shop extends JFrame {
         return build;
     }
 
-    public View_Shop() {
+    public static void buildViewShop() throws FileNotFoundException {
+        if (!isBuild()) {
+            //Set frame
+            frameShop.setSize(1366, 768);
+            frameShop.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            //Set panel
+            panelShop.setBackground(Color.gray);
+
+            //Set and add Back to game button
+            panelShop.add(View_Shop.getBackToGameButton());
+
+            //Set and add Back player button
+            panelShop.add(View_Shop.getPlayerButton());
+
+            //Set and add Back joy button
+            panelShop.add(View_Shop.getJoyButton());
+
+            //Set and add Back sadness button
+            panelShop.add(View_Shop.getSadnessButton());
+            sadnessButton.setEnabled(false);
+
+            //Set and add Back anger button
+            panelShop.add(View_Shop.getAngerButton());
+            angerButton.setEnabled(false);
+
+            //Set and add Back disgust button
+            panelShop.add(View_Shop.getDisgustButton());
+            disgustButton.setEnabled(false);
+
+            //Set and add Back fear button
+            panelShop.add(View_Shop.getFearButton());
+            fearButton.setEnabled(false);
+
+            //Set frame with panel
+            frameShop.setContentPane(new View_Shop().getPanelShop());
+
+            //Show frame
+            frameShop.setVisible(true);
+            build = true;
+
+
+        } else {
+            frameShop.setVisible(true);
+        }
+
+        new View_Shop();
+    }
+
+    public View_Shop() throws FileNotFoundException {
         backToGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

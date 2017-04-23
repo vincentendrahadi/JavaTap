@@ -1,17 +1,14 @@
-package View;
+package view;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import static java.awt.Font.*;
 
 /**
  * Created by adit on 22/04/17.
@@ -79,13 +76,21 @@ public class View_MainMenu extends JFrame {
 
     }
 
+    public static void main(String[] args) throws FileNotFoundException{
+        buildViewGame();
+        new View_MainMenu();
+    }
 
-    public View_MainMenu() {
+    public View_MainMenu() throws FileNotFoundException{
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frameMainMenu.setVisible(false);
-                View_GamePlay.buildViewGamePlay();
+                try {
+                    View_GamePlay.buildViewGamePlay();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -93,7 +98,11 @@ public class View_MainMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frameMainMenu.setVisible(false);
-                View_GamePlay.buildViewGamePlay();
+                try {
+                    View_GamePlay.buildViewGamePlay();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 

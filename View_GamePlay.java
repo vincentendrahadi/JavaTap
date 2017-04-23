@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -6,15 +6,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import maincharacter.*;
+import enemy.*;
+import stage.*;
+import world.*;
+import controller.*;
 
 /**
  * Created by adit on 22/04/17.
  */
 
 public class View_GamePlay extends JFrame {
+
     private static JPanel panelGamePlay = new JPanel();
     private static JPanel panelIdlePlayer = new JPanel();
     private static JButton shop = new JButton("Shop");
@@ -23,12 +32,27 @@ public class View_GamePlay extends JFrame {
     private static JLabel attackPlayer;
     private static JLabel enemyNotHurt;
     private static JLabel enemyHurt;
+    private static JTextField dummy = new JTextField();
 
-    public static void main(String[] args) {
-        new View_GamePlay();
-    }
+    public static void buildViewGamePlay() throws FileNotFoundException{
+        dummy.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
 
-    public static void buildViewGamePlay() {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    enemyHurt.setVisible(true);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
         frameMain.setSize(1366,768);
         frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panelGamePlay.setLayout(null);
@@ -77,10 +101,15 @@ public class View_GamePlay extends JFrame {
         attackPlayer.setVisible(false);
         enemyHurt.setVisible(false);
         panelGamePlay.add(View_GamePlay.getShop());
+        panelGamePlay.add(dummy);
         shop.setBounds(1166,665,200,53);
         frameMain.getContentPane().add(View_GamePlay.getPanelGamePlay());
         frameMain.setVisible(true);
         new View_GamePlay();
+        World w = new World();
+        GameplayController gc = new GameplayController(w);
+        gc.runWorld();
+
     }
 
     public static void setFrameMain(JFrame frameMain) {
@@ -107,54 +136,15 @@ public class View_GamePlay extends JFrame {
         return panelGamePlay;
     }
 
-    public View_GamePlay() {
+    public View_GamePlay() throws FileNotFoundException {
         shop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frameMain.setVisible(false);
-                if (!View_Shop.isBuild()) {
-                    //Set frame
-                    View_Shop.getFrameShop().setSize(1366, 768);
-                    View_Shop.getFrameShop().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                    //Set panel
-                    View_Shop.getPanelShop().setBackground(Color.gray);
-
-                    //Set and add Back to game button
-                    View_Shop.getPanelShop().add(View_Shop.getBackToGameButton());
-
-                    //Set and add Back player button
-                    View_Shop.getPanelShop().add(View_Shop.getPlayerButton());
-
-                    //Set and add Back joy button
-                    View_Shop.getPanelShop().add(View_Shop.getJoyButton());
-
-                    //Set and add Back sadness button
-                    View_Shop.getPanelShop().add(View_Shop.getSadnessButton());
-                    View_Shop.getSadnessButton().setEnabled(false);
-
-                    //Set and add Back anger button
-                    View_Shop.getPanelShop().add(View_Shop.getAngerButton());
-                    View_Shop.getAngerButton().setEnabled(false);
-
-                    //Set and add Back disgust button
-                    View_Shop.getPanelShop().add(View_Shop.getDisgustButton());
-                    View_Shop.getDisgustButton().setEnabled(false);
-
-                    //Set and add Back fear button
-                    View_Shop.getPanelShop().add(View_Shop.getFearButton());
-                    View_Shop.getFearButton().setEnabled(false);
-
-                    //Set frame with panel
-                    View_Shop.getFrameShop().setContentPane(new View_Shop().getPanelShop());
-
-                    //Show frame
-                    View_Shop.getFrameShop().setVisible(true);
-                    View_Shop.setBuild(true);
-
-
-                } else {
-                    View_Shop.getFrameShop().setVisible(true);
+                try {
+                    View_Shop.buildViewShop();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
                 }
             }
         });
