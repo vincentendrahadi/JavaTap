@@ -43,7 +43,7 @@ public class Stage {
       } else {
         enemy = new RegularEnemy(max, name);
       }
-      gameStage.add(E);
+      gameStage.add(enemy);
 
     }
     curStage = 0;

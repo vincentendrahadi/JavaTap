@@ -1,7 +1,7 @@
 import Controller.GameplayController;
 import maincharacter.hero.Hero;
 import maincharacter.player.Player;
-import world.KSWorld;
+import world.World;
 
 import java.io.FileNotFoundException;
 
@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
  */
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        KSWorld world = new KSWorld();
+        World world = new World();
         Player p = new Player("Player");
         Hero h = new Hero ("Hero",4);
         GameplayController gc = new GameplayController(world);

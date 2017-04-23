@@ -3,7 +3,7 @@ package Controller;
 
 import maincharacter.hero.Hero;
 import maincharacter.player.Player;
-import world.KSWorld;
+import world.World;
 
 import java.io.FileNotFoundException;
 
@@ -11,13 +11,13 @@ import java.io.FileNotFoundException;
  * Created by axelinate on 4/23/17.
  */
 public class GameplayController {
-    private KSWorld worldModel;
+    private World worldModel;
 
-    public GameplayController(KSWorld worldModel) {
+    public GameplayController(World worldModel) {
         this.worldModel = worldModel;
     }
 
-    public KSWorld getWorldModel() {
+    public World getWorldModel() {
         return worldModel;
     }
 
