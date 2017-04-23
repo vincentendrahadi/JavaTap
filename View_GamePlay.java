@@ -35,6 +35,7 @@ public class View_GamePlay extends JFrame {
     private static JTextField dummy = new JTextField();
 
     public static void buildViewGamePlay() throws FileNotFoundException{
+
         dummy.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -44,6 +45,7 @@ public class View_GamePlay extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    enemyNotHurt.setVisible(false);
                     enemyHurt.setVisible(true);
                 }
             }
@@ -53,6 +55,7 @@ public class View_GamePlay extends JFrame {
 
             }
         });
+
         frameMain.setSize(1366,768);
         frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panelGamePlay.setLayout(null);
@@ -105,10 +108,22 @@ public class View_GamePlay extends JFrame {
         shop.setBounds(1166,665,200,53);
         frameMain.getContentPane().add(View_GamePlay.getPanelGamePlay());
         frameMain.setVisible(true);
-        new View_GamePlay();
-        World w = new World();
-        GameplayController gc = new GameplayController(w);
-        gc.runWorld();
+        SwingWorker swingWork = new SwingWorker() {
+            @Override
+            protected Object doInBackground() throws Exception {
+
+                frameMain.setVisible(true);
+                System.out.println("asda");
+                new View_GamePlay();
+                World w = new World();
+                GameplayController gc = new GameplayController(w);
+                System.out.println("asda");
+                gc.runWorld();
+                return null;
+            }
+        };
+        swingWork.execute();
+
 
     }
 
