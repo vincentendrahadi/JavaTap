@@ -1,10 +1,12 @@
-import oracle.jrockit.jfr.JFR;
-import sun.plugin2.util.ColorUtil;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import static java.awt.Font.*;
 
@@ -23,36 +25,67 @@ public class View_MainMenu extends JFrame {
         frameMainMenu = new JFrame("Tap Hero");
         frameMainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameMainMenu.setSize(1366,768);
+
         panelMainMenu = new JPanel();
+
         logo = new JPanel();
+
         startButton = new JButton("Start Game");
+
         loadButton = new JButton("Load Game");
+
         exitButton = new JButton("Quit Game");
+
+
         panelMainMenu.setLayout(null);
-        panelMainMenu.setSize(1366, 300);
+        panelMainMenu.setBounds(0,300,1366,768);
         panelMainMenu.setBackground(Color.BLACK);
-        startButton.setBounds(5,5, 30,30);
-        panelMainMenu.add(startButton);
+
+        //logo.setLayout(null);
+        //logo.setBounds(0,0,1366,300);
+        logo.setBackground(Color.BLACK);
+
+
+
+
+           try {
+               BufferedImage img = ImageIO.read(new File("/home/itb_13515140/Desktop/Swing/src/cobamainmenu/rsz_hero.png"));
+               ImageIcon icon = new ImageIcon(img);
+               JLabel label = new JLabel(icon);
+               logo.add(label);
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+
+
+        /*panelMainMenu.add(startButton);
         panelMainMenu.add(loadButton);
-        panelMainMenu.add(exitButton);
-        frameMainMenu.add(panelMainMenu);
-        frameMainMenu.add(logo);
+        panelMainMenu.add(exitButton);*/
+
         startButton.setFocusPainted(false);
-        startButton.setBounds(615,0, 130,40);
+        startButton.setBounds(615,50, 130,40);
         startButton.setBackground(Color.DARK_GRAY);
         startButton.setForeground(new Color(44,214,205));
 
         loadButton.setFocusPainted(false);
-        loadButton.setBounds(615,50, 130,40);
+        loadButton.setBounds(615,150, 130,40);
         loadButton.setBackground(Color.DARK_GRAY);
         loadButton.setForeground(new Color(44,214,205));
 
         exitButton.setFocusPainted(false);
-        exitButton.setBounds(615,100, 130,40);
+        exitButton.setBounds(615,250, 130,40);
         exitButton.setBackground(Color.DARK_GRAY);
         exitButton.setForeground(new Color(44,214,205));
-        frameMainMenu.setContentPane(new View_MainMenu().panelMainMenu);
+
+        panelMainMenu.add(startButton);
+        panelMainMenu.add(loadButton);
+        panelMainMenu.add(exitButton);
+
+        //frameMainMenu.setContentPane(new View_MainMenu());
+        frameMainMenu.getContentPane().add(panelMainMenu);
+        frameMainMenu.getContentPane().add(logo);
         frameMainMenu.setVisible(true);
+
         new View_MainMenu();
     }
 
