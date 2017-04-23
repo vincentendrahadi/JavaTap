@@ -1,7 +1,7 @@
 package Controller;
 
-import Enemy.Enemy;
-import Enemy.BossEnemy;
+import enemy.Enemy;
+import enemy.BossEnemy;
 
 /**
  * Created by axelinate on 4/23/17.

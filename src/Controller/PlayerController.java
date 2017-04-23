@@ -1,7 +1,7 @@
 package Controller;
 
-import Enemy.Enemy;
-import MainCharacter.Player.Player;
+import enemy.Enemy;
+import maincharacter.player.Player;
 
 /**
  * Created by axelinate on 4/23/17.

@@ -1,7 +1,7 @@
 import Controller.GameplayController;
-import MainCharacter.Heroes.Hero;
-import MainCharacter.Player.Player;
-import World.KSWorld;
+import maincharacter.hero.Hero;
+import maincharacter.player.Player;
+import world.KSWorld;
 
 import java.io.FileNotFoundException;
 
