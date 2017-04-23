@@ -1,3 +1,4 @@
+package View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,28 +15,16 @@ import static java.awt.Font.*;
  * Created by adit on 22/04/17.
  */
 public class View_MainMenu extends JFrame {
-    private static JFrame frameMainMenu;
-    private static JPanel panelMainMenu;
-    private static JPanel logo;
-    private static JButton startButton;
-    private static JButton loadButton;
-    private static JButton exitButton;
+    private static JFrame frameMainMenu = new JFrame("Tap Hero");
+    private static JPanel panelMainMenu = new JPanel();
+    private static JPanel logo = new JPanel();
+    private static JButton startButton = new JButton("Start Game");
+    private static JButton loadButton = new JButton("Load Game");
+    private static JButton exitButton = new JButton("Quit Game");
 
-    public static void main(String[] args) {
-        frameMainMenu = new JFrame("Tap Hero");
+    public static void buildViewGame() {
         frameMainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameMainMenu.setSize(1366,768);
-
-        panelMainMenu = new JPanel();
-
-        logo = new JPanel();
-
-        startButton = new JButton("Start Game");
-
-        loadButton = new JButton("Load Game");
-
-        exitButton = new JButton("Quit Game");
-
 
         panelMainMenu.setLayout(null);
         panelMainMenu.setBounds(0,300,1366,768);
@@ -48,14 +37,14 @@ public class View_MainMenu extends JFrame {
 
 
 
-           try {
-               BufferedImage img = ImageIO.read(new File("/home/itb_13515140/Desktop/Swing/src/cobamainmenu/rsz_hero.png"));
-               ImageIcon icon = new ImageIcon(img);
-               JLabel label = new JLabel(icon);
-               logo.add(label);
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
+        try {
+            BufferedImage img = ImageIO.read(new File("/home/itb_13515140/Desktop/Swing/src/cobamainmenu/rsz_hero.png"));
+            ImageIcon icon = new ImageIcon(img);
+            JLabel label = new JLabel(icon);
+            logo.add(label);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         /*panelMainMenu.add(startButton);
