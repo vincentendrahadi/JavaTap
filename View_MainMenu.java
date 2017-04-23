@@ -2,6 +2,8 @@ package View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +40,7 @@ public class View_MainMenu extends JFrame {
 
 
         try {
-            BufferedImage img = ImageIO.read(new File("/home/itb_13515140/Desktop/Swing/src/cobamainmenu/rsz_hero.png"));
+            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/rsz_hero.png"));
             ImageIcon icon = new ImageIcon(img);
             JLabel label = new JLabel(icon);
             logo.add(label);
@@ -75,7 +77,6 @@ public class View_MainMenu extends JFrame {
         frameMainMenu.getContentPane().add(logo);
         frameMainMenu.setVisible(true);
 
-        new View_MainMenu();
     }
 
 
@@ -84,12 +85,7 @@ public class View_MainMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frameMainMenu.setVisible(false);
-                View_GamePlay.getFrameMain().setSize(1366,768);
-                View_GamePlay.getFrameMain().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                View_GamePlay.getPanelGamePlay().setBackground(Color.gray);
-                View_GamePlay.getPanelGamePlay().add(View_GamePlay.getShop());
-                View_GamePlay.getFrameMain().setContentPane(new View_GamePlay().getPanelGamePlay());
-                View_GamePlay.getFrameMain().setVisible(true);
+                View_GamePlay.buildViewGamePlay();
             }
         });
 
@@ -97,12 +93,7 @@ public class View_MainMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frameMainMenu.setVisible(false);
-                View_GamePlay.getFrameMain().setSize(1366,768);
-                View_GamePlay.getFrameMain().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                View_GamePlay.getPanelGamePlay().setBackground(Color.gray);
-                View_GamePlay.getPanelGamePlay().add(View_GamePlay.getShop());
-                View_GamePlay.getFrameMain().add(View_GamePlay.getPanelGamePlay());
-                View_GamePlay.getFrameMain().setVisible(true);
+                View_GamePlay.buildViewGamePlay();
             }
         });
 
