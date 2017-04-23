@@ -1,10 +1,14 @@
 package View;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by adit on 22/04/17.
@@ -12,10 +16,70 @@ import java.awt.event.ActionListener;
 
 public class View_GamePlay extends JFrame {
     private static JPanel panelGamePlay = new JPanel();
+    private static JPanel panelIdlePlayer = new JPanel();
     private static JButton shop = new JButton("Shop");
     private static JFrame frameMain = new JFrame("GamePlay");
+    private static JLabel idlePlayer;
+    private static JLabel attackPlayer;
+    private static JLabel enemyNotHurt;
+    private static JLabel enemyHurt;
 
     public static void main(String[] args) {
+        new View_GamePlay();
+    }
+
+    public static void buildViewGamePlay() {
+        frameMain.setSize(1366,768);
+        frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panelGamePlay.setLayout(null);
+        panelGamePlay.setBackground(Color.gray);
+
+        try {
+            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/idlePlayer.png"));
+            ImageIcon icon = new ImageIcon(img);
+            idlePlayer = new JLabel(icon);
+            idlePlayer.setBounds(600,500,150,150);
+            panelGamePlay.add(idlePlayer);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/attackPlayer.png"));
+            ImageIcon icon = new ImageIcon(img);
+            attackPlayer = new JLabel(icon);
+            attackPlayer.setBounds(550,440,250,250);
+            panelGamePlay.add(attackPlayer);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/idleEnemy.png"));
+            ImageIcon icon = new ImageIcon(img);
+            enemyNotHurt = new JLabel(icon);
+            enemyNotHurt.setBounds(560,30,250,250);
+            panelGamePlay.add(enemyNotHurt);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/hurtEnemy.png"));
+            ImageIcon icon = new ImageIcon(img);
+            enemyHurt = new JLabel(icon);
+            enemyHurt.setBounds(560,30,250,250);
+            panelGamePlay.add(enemyHurt);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        attackPlayer.setVisible(false);
+        enemyHurt.setVisible(false);
+        panelGamePlay.add(View_GamePlay.getShop());
+        shop.setBounds(1166,665,200,53);
+        frameMain.getContentPane().add(View_GamePlay.getPanelGamePlay());
+        frameMain.setVisible(true);
         new View_GamePlay();
     }
 
@@ -87,6 +151,8 @@ public class View_GamePlay extends JFrame {
                     //Show frame
                     View_Shop.getFrameShop().setVisible(true);
                     View_Shop.setBuild(true);
+
+
                 } else {
                     View_Shop.getFrameShop().setVisible(true);
                 }
