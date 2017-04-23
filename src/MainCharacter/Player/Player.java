@@ -99,7 +99,7 @@ public class Player extends MainCharacter {
      * Menambah jumlah money yang telah ada.
      * @param money
      */
-    public void setMoney(int money) {
+    public void plusMoney(int money) {
         this.money += money;
     }
 
@@ -109,6 +109,7 @@ public class Player extends MainCharacter {
      */
     public void setEnemy(Enemy enemy) {
         this.enemy = enemy;
+        thereIsEnemy = true;
     }
 
     /**
@@ -135,7 +136,7 @@ public class Player extends MainCharacter {
                                     Scanner scan = new Scanner(System.in);
                                     char CC = scan.next().charAt(0);
                                     enemy.calculateHealth(100);
-                                    setMoney(100);
+                                    plusMoney(100);
                                     System.out.println("Enemy : " + enemy.getName());
                                     System.out.println("Enemy : " + enemy.getCurHealth());
                                     player.sleep(10);

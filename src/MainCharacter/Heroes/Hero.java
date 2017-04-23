@@ -87,6 +87,7 @@ public class Hero extends MainCharacter {
      */
     public void setEnemy(Enemy enemy) {
         this.enemy = enemy;
+        thereIsEnemy = true;
     }
 
     /**
