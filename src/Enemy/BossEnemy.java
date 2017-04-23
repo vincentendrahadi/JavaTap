@@ -23,8 +23,6 @@ public class BossEnemy extends Enemy {
 
     @Override
     public boolean isAlive() {
-        if(alive == false) {
-        }
         return alive;
     }
 

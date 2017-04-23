@@ -1,9 +1,9 @@
 import Enemy.Enemy;
-import Enemy.BossEnemy;
 import MainCharacter.Heroes.Hero;
 import MainCharacter.Player.Player;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /**
  * Created by Vincent Endrahadi on 4/22/17.
@@ -11,18 +11,20 @@ import java.io.FileNotFoundException;
 public class KSWorld {
     private Enemy monster;
     private Player player;
-    private Hero hero;
+    private ArrayList<Hero> hero;
+    private int countHero;
     private Stage stages;
 
     public KSWorld() throws FileNotFoundException{
         player = new Player("Dino");
-        hero = new Hero("Noob");
+        hero = new ArrayList<Hero>();
+        countHero = 0;
         stages = new Stage();
         monster = stages.getCurEnemy();
     }
 
-    public Enemy getMonster() {
-        return monster;
+    public int getCountHero() {
+        return countHero;
     }
 
     public Stage getStages() {
@@ -33,38 +35,52 @@ public class KSWorld {
         return player;
     }
 
-    public Hero getHero() {
-        return hero;
+    public Hero getHero(int idx) {
+        return hero.get(idx);
+    }
+
+    public void addHero (Hero h) {
+        hero.add(h);
+        countHero++;
     }
 
     public void setMonster() {
         monster = stages.getCurEnemy();
         player.setEnemy(monster);
         player.setThereIsEnemy(true);
-        hero.setEnemy(monster);
-        hero.setThereIsEnemy(true);
+        for(int i = 0 ; i < countHero; i++) {
+            hero.get(i).setEnemy(monster);
+            hero.get(i).setThereIsEnemy(true);
+        }
     }
 
     public void setThreadToNull() {
-        hero.setThreadNull();
+        for(int i = 0 ; i < countHero; i++) {
+            hero.get(i).setThreadNull();
+        }
         player.setThreadNull();
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         KSWorld world = new KSWorld();
+        Hero h = new Hero("haha",4);
+        world.addHero(h);
         int cur = 0;
-        while (world.getStages().getGameStage().get(cur) != null) {
+        while (cur < world.getStages().getGameStage().size()) {
             world.setMonster();
-            world.getHero().start();
+            for(int i = 0 ; i < world.getCountHero(); i++) {
+                world.getHero(i).start();
+            }
             world.getPlayer().start();
-            synchronized (world.getHero().getHero()) {
+
+            synchronized (world.getHero(0).getHeroThread()) {
                 try {
-                    world.getHero().getHero().wait();
+                    world.getHero(0).getHeroThread().wait();
                     world.getPlayer().setMoney(world.monster.getMoneyLoot());
                     System.out.println("Money : " + world.player.getMoney());
                     cur++;
                     world.getStages().setCurStage(cur);
-                    world.getHero().getHero().sleep(10);
+                    world.getHero(0).getHeroThread().sleep(10);
                 } catch (InterruptedException e) {
 
                 }
