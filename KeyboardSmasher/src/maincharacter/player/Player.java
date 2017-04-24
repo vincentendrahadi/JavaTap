@@ -3,6 +3,8 @@ package maincharacter.player;
 import enemy.BossEnemy;
 import enemy.Enemy;
 import java.util.Scanner;
+
+import enemy.RegularEnemy;
 import maincharacter.MainCharacter;
 
 
@@ -144,16 +146,9 @@ public class Player extends MainCharacter {
             long end = start + ((BossEnemy) enemy).getTimeLimit() * 1000;
             while (System.currentTimeMillis() < end) {
               if (enemy.getCurHealth() > 0) {
-                /*Scanner scan = new Scanner(System.in);
-                char cc = scan.next().charAt(0);
-                enemy.calculateHealth(100);
-                plusMoney(100);*/
-                System.out.println("Enemy : " + enemy.getName());
-                System.out.println("Enemy : " + enemy.getCurHealth());
                 player.sleep(10);
               } else {
                 thereIsEnemy = false;
-                setThreadNull();
                 notify();
                 break;
               }
@@ -163,15 +158,17 @@ public class Player extends MainCharacter {
               ((BossEnemy) enemy).resetCurHealth();
             }
           } else {
-            if (enemy.getCurHealth() > 0) {
-              /*Scanner scan = new Scanner(System.in);
-              char cc = scan.next().charAt(0);
-              enemy.calculateHealth(100);*/
-              player.sleep(100);
-            } else {
-              thereIsEnemy = false;
+            long start = System.currentTimeMillis();
+            long end = start + 30 * 1000;
+            while (System.currentTimeMillis() < end) {
+              if (enemy.getCurHealth() > 0) {
+                player.sleep(10);
+              } else {
+                thereIsEnemy = false;
+                notify();
+                break;
+              }
             }
-            notify();
           }
         }
       }

@@ -21,7 +21,6 @@ public class View_MainMenu extends JFrame {
     private static JButton loadButton = new JButton("Load Game");
     private static JButton exitButton = new JButton("Quit Game");
 
-
     public static void buildViewGame() {
         frameMainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameMainMenu.setSize(1366,768);
@@ -34,8 +33,11 @@ public class View_MainMenu extends JFrame {
         //logo.setBounds(0,0,1366,300);
         logo.setBackground(Color.BLACK);
 
+
+
+
         try {
-            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/rsz_hero.png"));
+            BufferedImage img = ImageIO.read(new File("/home/axelinate/IdeaProjects/B&B/src/res/rsz_hero.png"));
             ImageIcon icon = new ImageIcon(img);
             JLabel label = new JLabel(icon);
             logo.add(label);
@@ -67,11 +69,12 @@ public class View_MainMenu extends JFrame {
         panelMainMenu.add(loadButton);
         panelMainMenu.add(exitButton);
 
+        //frameMainMenu.setContentPane(new View_MainMenu());
         frameMainMenu.getContentPane().add(panelMainMenu);
         frameMainMenu.getContentPane().add(logo);
         frameMainMenu.setVisible(true);
-    }
 
+    }
 
     public static void main(String[] args) throws FileNotFoundException{
         buildViewGame();
