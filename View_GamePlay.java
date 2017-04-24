@@ -67,6 +67,29 @@ public class View_GamePlay extends JFrame {
     public static void buildViewGamePlay() throws FileNotFoundException{
         initiateController();
 
+        dummy.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    enemyNotHurt.setVisible(false);
+                    enemyHurt.setVisible(true);
+                    pc.attackEnemy(ec);
+                    System.out.println("Enemy : " + ec.getEnemyModel().getName());
+                    System.out.println("Enemy : " + ec.getEnemyModel().getCurHealth());
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                enemyNotHurt.setVisible(true);
+                enemyHurt.setVisible(false);
+            }
+        });
 
         frameMain.setSize(1366,768);
         frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -125,31 +148,7 @@ public class View_GamePlay extends JFrame {
             @Override
             protected Object doInBackground() throws Exception {
 
-
                 while (!isCancelled()) {
-                    dummy.addKeyListener(new KeyListener() {
-                        @Override
-                        public void keyTyped(KeyEvent e) {
-
-                        }
-
-                        @Override
-                        public void keyPressed(KeyEvent e) {
-                            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                                enemyNotHurt.setVisible(false);
-                                enemyHurt.setVisible(true);
-                                pc.attackEnemy(ec);
-                                System.out.println("Enemy : " + ec.getEnemyModel().getName());
-                                System.out.println("Enemy : " + ec.getEnemyModel().getCurHealth());
-                            }
-                        }
-
-                        @Override
-                        public void keyReleased(KeyEvent e) {
-
-                        }
-                    });
-
                     int cur = 0;
                     while (cur < gc.getWorldStage().getGameStage().size()) {
                         gc.setWorldMonster();
@@ -167,7 +166,7 @@ public class View_GamePlay extends JFrame {
                                 System.out.println("Money : " + gc.getWorldPlayer().getMoney());
                                 cur++;
                                 gc.getWorldStage().setCurStage(cur);
-                                gc.getWorldHero(0).getHeroThread().sleep(10);
+                                gc.getWorldHero(0).getHeroThread().sleep(1);
                             } catch (InterruptedException e) {
                                 System.out.println("World Interrupted");
                             }
@@ -176,12 +175,10 @@ public class View_GamePlay extends JFrame {
                     }
                     cancel(true);
                 }
-                System.out.println("selesai");
                 return null;
             }
         };
         swingWork.execute();
-        System.out.println("aa");
 
 
     }
