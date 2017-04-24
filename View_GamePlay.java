@@ -12,8 +12,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import maincharacter.*;
 import enemy.*;
+import maincharacter.hero.Hero;
+import maincharacter.player.Player;
 import stage.*;
 import world.*;
 import controller.*;
@@ -21,6 +25,7 @@ import controller.*;
 /**
  * Created by adit on 22/04/17.
  */
+
 
 public class View_GamePlay extends JFrame {
 
@@ -34,27 +39,34 @@ public class View_GamePlay extends JFrame {
     private static JLabel enemyHurt;
     private static JTextField dummy = new JTextField();
 
+    private static Player p;
+    private static PlayerController pc;
+    private static Hero h;
+    private static HeroController hc;
+    private static ArrayList<Hero> hero;
+    private static Stage stages;
+    private static int curStage;
+    private static EnemyController ec;
+    private static World world;
+    private static GameplayController gc;
+
+    public static void initiateController() throws FileNotFoundException{
+        curStage = 0;
+        p = new Player("Player");
+        pc = new PlayerController(p);
+        h = new Hero("Hero", 4);
+        hc = new HeroController(h);
+        hero = new ArrayList<>();
+        stages = new Stage();
+        ec = new EnemyController(stages.getCurEnemy());
+        world = new World(p, hero, stages);
+        world.addHero(h);
+        gc = new GameplayController(world);
+    }
+
     public static void buildViewGamePlay() throws FileNotFoundException{
+        initiateController();
 
-        dummy.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    enemyNotHurt.setVisible(false);
-                    enemyHurt.setVisible(true);
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
 
         frameMain.setSize(1366,768);
         frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,7 +74,7 @@ public class View_GamePlay extends JFrame {
         panelGamePlay.setBackground(Color.gray);
 
         try {
-            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/idlePlayer.png"));
+            BufferedImage img = ImageIO.read(new File("/home/axelinate/IdeaProjects/B&B/src/res/idlePlayer.png"));
             ImageIcon icon = new ImageIcon(img);
             idlePlayer = new JLabel(icon);
             idlePlayer.setBounds(600,500,150,150);
@@ -72,7 +84,7 @@ public class View_GamePlay extends JFrame {
         }
 
         try {
-            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/attackPlayer.png"));
+            BufferedImage img = ImageIO.read(new File("/home/axelinate/IdeaProjects/B&B/src/res/attackPlayer.png"));
             ImageIcon icon = new ImageIcon(img);
             attackPlayer = new JLabel(icon);
             attackPlayer.setBounds(550,440,250,250);
@@ -82,7 +94,7 @@ public class View_GamePlay extends JFrame {
         }
 
         try {
-            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/idleEnemy.png"));
+            BufferedImage img = ImageIO.read(new File("/home/axelinate/IdeaProjects/B&B/src/res/idleEnemy.png"));
             ImageIcon icon = new ImageIcon(img);
             enemyNotHurt = new JLabel(icon);
             enemyNotHurt.setBounds(560,30,250,250);
@@ -92,7 +104,7 @@ public class View_GamePlay extends JFrame {
         }
 
         try {
-            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/hurtEnemy.png"));
+            BufferedImage img = ImageIO.read(new File("/home/axelinate/IdeaProjects/B&B/src/res/hurtEnemy.png"));
             ImageIcon icon = new ImageIcon(img);
             enemyHurt = new JLabel(icon);
             enemyHurt.setBounds(560,30,250,250);
@@ -108,21 +120,61 @@ public class View_GamePlay extends JFrame {
         shop.setBounds(1166,665,200,53);
         frameMain.getContentPane().add(View_GamePlay.getPanelGamePlay());
         frameMain.setVisible(true);
+
         SwingWorker swingWork = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
+                while (!isCancelled()) {
+                    System.out.println("attack");
 
-                frameMain.setVisible(true);
-                System.out.println("asda");
-                new View_GamePlay();
-                World w = new World();
-                GameplayController gc = new GameplayController(w);
-                System.out.println("asda");
-                gc.runWorld();
+                    int cur = 0;
+                    gc.setWorldMonster();
+                    for (int i = 0; i < gc.getWorldHeroCount(); i++) {
+                        gc.getWorldHero(i).start();
+                    }
+                    gc.getWorldPlayer().start();
+                    dummy.addKeyListener(new KeyListener() {
+                        @Override
+                        public void keyTyped(KeyEvent e) {
+
+                        }
+
+                        @Override
+                        public void keyPressed(KeyEvent e) {
+                            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                                enemyNotHurt.setVisible(false);
+                                enemyHurt.setVisible(true);
+                                pc.attackEnemy(ec);
+                                System.out.println("Enemy : " + ec.getEnemyModel().getName());
+                                System.out.println("Enemy : " + ec.getEnemyModel().getCurHealth());
+                            }
+                        }
+
+                        @Override
+                        public void keyReleased(KeyEvent e) {
+
+                        }
+                    });
+                    synchronized (gc.getWorldHero(0).getHeroThread()) {
+                        try {
+                            gc.getWorldHero(0).getHeroThread().wait();
+                            gc.getWorldPlayer().plusMoney(ec.getModelMoneyLoot());
+                            System.out.println("Money : " + gc.getWorldPlayer().getMoney());
+                            cur++;
+                            gc.getWorldStage().setCurStage(cur);
+                            gc.getWorldHero(0).getHeroThread().sleep(10);
+                        } catch (InterruptedException e) {
+                            System.out.println("World Interrupted");
+                        }
+                    }
+                    gc.setWorldThreadToNull();
+                }
+                cancel(true);
                 return null;
             }
         };
         swingWork.execute();
+        System.out.println("aa");
 
 
     }
