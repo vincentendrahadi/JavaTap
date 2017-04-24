@@ -124,15 +124,9 @@ public class View_GamePlay extends JFrame {
         SwingWorker swingWork = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
-                while (!isCancelled()) {
-                    System.out.println("attack");
 
-                    int cur = 0;
-                    gc.setWorldMonster();
-                    for (int i = 0; i < gc.getWorldHeroCount(); i++) {
-                        gc.getWorldHero(i).start();
-                    }
-                    gc.getWorldPlayer().start();
+
+                while (!isCancelled()) {
                     dummy.addKeyListener(new KeyListener() {
                         @Override
                         public void keyTyped(KeyEvent e) {
@@ -155,21 +149,34 @@ public class View_GamePlay extends JFrame {
 
                         }
                     });
-                    synchronized (gc.getWorldHero(0).getHeroThread()) {
-                        try {
-                            gc.getWorldHero(0).getHeroThread().wait();
-                            gc.getWorldPlayer().plusMoney(ec.getModelMoneyLoot());
-                            System.out.println("Money : " + gc.getWorldPlayer().getMoney());
-                            cur++;
-                            gc.getWorldStage().setCurStage(cur);
-                            gc.getWorldHero(0).getHeroThread().sleep(10);
-                        } catch (InterruptedException e) {
-                            System.out.println("World Interrupted");
+
+                    int cur = 0;
+                    while (cur < gc.getWorldStage().getGameStage().size()) {
+                        gc.setWorldMonster();
+                        ec.setEnemyModel(gc.getWorldCurEnemy());
+
+                        for (int i = 0; i < gc.getWorldHeroCount(); i++) {
+                            gc.getWorldHero(i).start();
                         }
+                        gc.getWorldPlayer().start();
+
+                        synchronized (gc.getWorldHero(0).getHeroThread()) {
+                            try {
+                                gc.getWorldHero(0).getHeroThread().wait();
+                                gc.getWorldPlayer().plusMoney(ec.getModelMoneyLoot());
+                                System.out.println("Money : " + gc.getWorldPlayer().getMoney());
+                                cur++;
+                                gc.getWorldStage().setCurStage(cur);
+                                gc.getWorldHero(0).getHeroThread().sleep(10);
+                            } catch (InterruptedException e) {
+                                System.out.println("World Interrupted");
+                            }
+                        }
+                        gc.setWorldThreadToNull();
                     }
-                    gc.setWorldThreadToNull();
+                    cancel(true);
                 }
-                cancel(true);
+                System.out.println("selesai");
                 return null;
             }
         };
