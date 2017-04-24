@@ -99,7 +99,7 @@ public class View_MainMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 frameMainMenu.setVisible(false);
                 try {
-                    View_GamePlay.buildViewGamePlay();
+                    View_Stage.buildViewStage();
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 }

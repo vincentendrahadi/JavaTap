@@ -42,16 +42,16 @@ public class View_GamePlay extends JFrame {
   private static JTextField dummy = new JTextField();
   private static JProgressBar progressbar = new JProgressBar();
 
-  private static Player p;
-  private static PlayerController pc;
-  private static Hero h;
-  private static HeroController hc;
-  private static ArrayList<Hero> hero;
-  private static Stage stages;
-  private static int curStage;
-  private static EnemyController ec;
-  private static World world;
-  private static GameplayController gc;
+  public static Player p;
+  public static PlayerController pc;
+  public static Hero h;
+  public static HeroController hc;
+  public static ArrayList<Hero> hero;
+  public static Stage stages;
+  public static int curStage;
+  public static EnemyController ec;
+  public static World world;
+  public static GameplayController gc;
 
   public static void viewBar() {
     panelGamePlay.add(progressbar);
@@ -63,14 +63,14 @@ public class View_GamePlay extends JFrame {
     // progressbar.setValue(progressbar.getMinimum());
   }
 
-  public static void initiateController() throws FileNotFoundException {
+  public static void initiateController(String filename) throws FileNotFoundException {
     curStage = 0;
     p = new Player("Player");
     pc = new PlayerController(p);
     h = new Hero("Hero", 4,0.5);
     hc = new HeroController(h);
     hero = new ArrayList<>();
-    stages = new Stage();
+    stages = new Stage(filename);
     ec = new EnemyController(stages.getCurEnemy());
     world = new World(p, hero, stages);
     world.addHero(h);
@@ -78,7 +78,13 @@ public class View_GamePlay extends JFrame {
   }
 
   public static void buildViewGamePlay() throws FileNotFoundException {
-    initiateController();
+    try {
+      if (p.getLevel() > 0) {
+
+      }
+    } catch (NullPointerException e) {
+      initiateController("stage.txt");
+    }
 
     SwingWorker keyPress = new SwingWorker() {
       @Override
@@ -133,7 +139,7 @@ public class View_GamePlay extends JFrame {
     }
 
     try {
-      BufferedImage img = ImageIO.read(new File("/home/axelinate/IdeaProjects/B&B/src/res/attackPlayer.png"));
+      BufferedImage img = ImageIO.read(new File("/home/axelinate/IdeaProjects/B&B/src/res/attackingPlayer.png"));
       ImageIcon icon = new ImageIcon(img);
       attackPlayer = new JLabel(icon);
       attackPlayer.setBounds(450,300,400,400);
@@ -186,7 +192,7 @@ public class View_GamePlay extends JFrame {
               }
             }
           }, 60, 1);
-          int cur = 0;
+          int cur = stages.getCurStage();
           gc.setWorldMonster();
           ec.setEnemyModel(gc.getWorldCurEnemy());
           for (int i = 0; i < gc.getWorldHeroCount(); i++) {
