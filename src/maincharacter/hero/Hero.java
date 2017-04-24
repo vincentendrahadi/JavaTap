@@ -17,19 +17,23 @@ public class Hero extends MainCharacter {
   private Enemy enemy;
   private int attPower;
   private int level;
-  private int priority;
+  private double attSpeed;
 
   /**
    * Konstruktor Hero dengan parameter nama dan prioritas dari thread.
    * @param name Nama dari Hero.
-   * @param prio Prioritas Thread dijalankan.
+   * @param attSpeed Kecepatan hero dalam menyerang musuh.
    */
-  public Hero(String name, int prio) {
+  public Hero(String name, int attPower, double attSpeed) {
     threadName = name;
     level = 0;
-    attPower = 5;
+    this.attPower = attPower;
     thereIsEnemy = false;
-    priority = prio;
+    this.attSpeed = attSpeed;
+  }
+
+  public String getThreadName() {
+    return threadName;
   }
 
   /**
@@ -123,36 +127,35 @@ public class Hero extends MainCharacter {
             long end = start + ((BossEnemy) enemy).getTimeLimit() * 1000;
             while (System.currentTimeMillis() < end) {
               if (enemy.getCurHealth() > 0) {
-                enemy.calculateHealth(10);
-                System.out.println("Enemy : " + enemy.getName());
-                System.out.println("Enemy : " + enemy.getCurHealth());
-                hero.sleep(2000);
+                enemy.calculateHealth(attPower);
               } else {
                 thereIsEnemy = false;
                 notify();
                 break;
-
               }
+              hero.sleep(500);
             }
             System.out.println("Your Time is Up, Please Try Again!");
             ((BossEnemy) enemy).resetCurHealth();
           } else {
-            if (enemy.getCurHealth() > 0) {
-              enemy.calculateHealth(10);
-              System.out.println("Enemy : " + enemy.getName());
-              System.out.println("Enemy : " + enemy.getCurHealth());
-              hero.sleep(2000);
-            } else {
-              thereIsEnemy = false;
+            long start = System.currentTimeMillis();
+            long end = start + 30 * 1000;
+            while (System.currentTimeMillis() < end) {
+              if (enemy.getCurHealth() > 0) {
+                enemy.calculateHealth(attPower);
+              } else {
+                thereIsEnemy = false;
+                notify();
+                break;
+              }
+              hero.sleep(500);
             }
-            notify();
           }
         }
       }
     } catch (InterruptedException e) {
       System.out.println("Hero Interrupted");
     }
-
   }
 
   /**
@@ -162,7 +165,6 @@ public class Hero extends MainCharacter {
   public void start() {
     if (hero == null) {
       hero = new Thread(this, threadName);
-      hero.setPriority(priority);
       hero.start();
     }
   }

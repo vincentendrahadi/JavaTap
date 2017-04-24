@@ -21,23 +21,21 @@ public class View_MainMenu extends JFrame {
     private static JButton loadButton = new JButton("Load Game");
     private static JButton exitButton = new JButton("Quit Game");
 
+
     public static void buildViewGame() {
         frameMainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameMainMenu.setSize(1366,768);
 
         panelMainMenu.setLayout(null);
-        panelMainMenu.setBounds(0,300,1366,768);
+        panelMainMenu.setBounds(0,486,1366,768);
         panelMainMenu.setBackground(Color.BLACK);
 
         //logo.setLayout(null);
         //logo.setBounds(0,0,1366,300);
         logo.setBackground(Color.BLACK);
 
-
-
-
         try {
-            BufferedImage img = ImageIO.read(new File("/home/axelinate/IdeaProjects/B&B/src/res/rsz_hero.png"));
+            BufferedImage img = ImageIO.read(new File("/home/adit/IdeaProjects/KeyboardSmasher/src/res/main_panel.png"));
             ImageIcon icon = new ImageIcon(img);
             JLabel label = new JLabel(icon);
             logo.add(label);
@@ -51,17 +49,17 @@ public class View_MainMenu extends JFrame {
         panelMainMenu.add(exitButton);*/
 
         startButton.setFocusPainted(false);
-        startButton.setBounds(615,50, 130,40);
+        startButton.setBounds(590,10, 170,50);
         startButton.setBackground(Color.DARK_GRAY);
         startButton.setForeground(new Color(44,214,205));
 
         loadButton.setFocusPainted(false);
-        loadButton.setBounds(615,150, 130,40);
+        loadButton.setBounds(590,80, 170,50);
         loadButton.setBackground(Color.DARK_GRAY);
         loadButton.setForeground(new Color(44,214,205));
 
         exitButton.setFocusPainted(false);
-        exitButton.setBounds(615,250, 130,40);
+        exitButton.setBounds(590,150, 170,50);
         exitButton.setBackground(Color.DARK_GRAY);
         exitButton.setForeground(new Color(44,214,205));
 
@@ -69,12 +67,11 @@ public class View_MainMenu extends JFrame {
         panelMainMenu.add(loadButton);
         panelMainMenu.add(exitButton);
 
-        //frameMainMenu.setContentPane(new View_MainMenu());
         frameMainMenu.getContentPane().add(panelMainMenu);
         frameMainMenu.getContentPane().add(logo);
         frameMainMenu.setVisible(true);
-
     }
+
 
     public static void main(String[] args) throws FileNotFoundException{
         buildViewGame();
@@ -99,7 +96,7 @@ public class View_MainMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 frameMainMenu.setVisible(false);
                 try {
-                    View_GamePlay.buildViewGamePlay();
+                    View_Stage.buildViewStage();
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 }

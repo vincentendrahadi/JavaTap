@@ -1,8 +1,14 @@
 package world;
 
+import enemy.BossEnemy;
 import enemy.Enemy;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import enemy.RegularEnemy;
 import maincharacter.hero.Hero;
 import maincharacter.player.Player;
 import stage.Stage;
@@ -23,10 +29,27 @@ public class World {
    * @throws FileNotFoundException jika file tidak ketemu.
    */
   public World(Player p, ArrayList<Hero> list, Stage stages) throws FileNotFoundException {
+    Hero h;
     player = p;
     hero = list;
     this.stages = stages;
     countHero = 0;
+    Scanner file = new Scanner (new File("hero.txt"));
+    String line;
+    int power;
+    double speed;
+    String name;
+
+    while (file.hasNextLine()) {
+      line = file.nextLine();
+      String[] temp = line.split(" ");
+      name = temp[0];
+      power = Integer.parseInt(temp[1]);
+      speed = Double.parseDouble(temp[2]);
+      h = new Hero(name, power, speed);
+      list.add(h);
+    }
+
   }
 
   /**
@@ -66,8 +89,7 @@ public class World {
    * Menambah Hero ke List
    * @param h Hero yang akan dimasukkan.
    */
-  public void addHero(Hero h) {
-    hero.add(h);
+  public void addHero() {
     countHero++;
   }
 

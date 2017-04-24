@@ -1,6 +1,7 @@
 package controller;
 
 
+import enemy.Enemy;
 import maincharacter.hero.Hero;
 import maincharacter.player.Player;
 import stage.Stage;
@@ -34,8 +35,11 @@ public class GameplayController {
         return worldModel.getStages();
     }
 
-    public void addWorldHero(Hero h) {
-        worldModel.addHero(h);
+    public Enemy getWorldCurEnemy() {
+        return worldModel.getStages().getCurEnemy();
+    }
+    public void addWorldHero() {
+        worldModel.addHero();
     }
 
     public void setWorldMonster() {

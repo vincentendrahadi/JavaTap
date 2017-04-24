@@ -17,6 +17,10 @@ public class EnemyController {
         return enemyModel;
     }
 
+    public void setEnemyModel(Enemy enemyModel) {
+        this.enemyModel = enemyModel;
+    }
+
     public String getEnemyName() {
         return enemyModel.getName();
     }

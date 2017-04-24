@@ -13,11 +13,11 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         Player p = new Player("Player");
-        Hero h = new Hero ("Hero",4);
-        Stage stages = new Stage();
+        Hero h = new Hero ("Hero",10,0.5);
+        Stage stages = new Stage("stage.txt");
         ArrayList<Hero> hero = new ArrayList<>();
         World world = new World(p,hero,stages);
-        world.addHero(h);
+
         GameplayController gc = new GameplayController(world);
         gc.runWorld();
     }

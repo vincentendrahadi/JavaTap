@@ -26,12 +26,12 @@ public class Stage {
    *
    * @throws FileNotFoundException jika file tidak ditemukan.
    */
-  public Stage() throws FileNotFoundException {
+  public Stage(String filename) throws FileNotFoundException {
     String line;
     String name;
     int max;
     Enemy enemy;
-    Scanner file = new Scanner(new File("stage.txt"));
+    Scanner file = new Scanner(new File(filename));
     gameStage = new ArrayList<Enemy>();
     while (file.hasNextLine()) {
       line = file.nextLine();
