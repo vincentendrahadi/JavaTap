@@ -10,10 +10,10 @@ import static org.junit.Assert.*;
  */
 public class BossEnemyTest {
   @Test
-  public void ModifyBoss(){
+  public void TestingBoss() {
     BossEnemy x;
 
-    System.out.print("TESTING CTOR BOSS... ");
+    System.out.print("TESTING CTOR OF BOSSENEMY... ");
     x = new BossEnemy(100,"Boombayah");
     assertTrue(x.getName() == "Boombayah");
     assertTrue(x.isAlive() == true);
@@ -24,13 +24,13 @@ public class BossEnemyTest {
     assertTrue(x.getTimeLimit() == 10);
     System.out.println("DONE!");
 
-    System.out.print("TESTING RESET BOSS CURRENT HEALTH... ");
+    System.out.print("TESTING RESET BOSSENEMY CURRENT HEALTH... ");
     x.setCurHealth(90);
     x.resetCurHealth();
     assertTrue(x.getCurHealth() == 100);
     System.out.println("DONE!");
 
-    System.out.print("TESTING CALCULATE BOSS HEALTH... ");
+    System.out.print("TESTING CALCULATE BOSSENEMY HEALTH... ");
     x.calculateHealth(50);
     assertTrue(x.getCurHealth() == 50);
     x.resetCurHealth();
