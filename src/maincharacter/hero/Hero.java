@@ -181,5 +181,6 @@ public class Hero extends MainCharacter {
    */
   public void levelUp() {
     level++;
+    setAttPower(15);
   }
 }

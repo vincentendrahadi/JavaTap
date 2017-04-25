@@ -38,6 +38,7 @@ public class GameplayController {
     public Enemy getWorldCurEnemy() {
         return worldModel.getStages().getCurEnemy();
     }
+
     public void addWorldHero() {
         worldModel.addHero();
     }

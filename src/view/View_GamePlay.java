@@ -22,6 +22,7 @@ import maincharacter.*;
 import enemy.*;
 import maincharacter.hero.Hero;
 import maincharacter.player.Player;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import stage.*;
 import world.*;
 import controller.*;
@@ -50,6 +51,9 @@ public class View_GamePlay extends JFrame {
     private static JLabel currMoney = new JLabel("0");
     private static JLabel attack = new JLabel("Attack  : ");
     private static JLabel currAttack = new JLabel();
+    public static JLabel level = new JLabel("Level  : ");
+    public static JLabel currLevel = new JLabel();
+
     private static JLabel executionTime = new JLabel();
     private static JTextField dummy = new JTextField();
     private static JProgressBar progressbar = new JProgressBar();
@@ -67,6 +71,7 @@ public class View_GamePlay extends JFrame {
     public static GameplayController gc;
 
     private static boolean enterTimeBoss = false;
+    private static boolean haveBuiltShop = false;
 
     public static void setAngerHero() {
         angerHero.setVisible(true);
@@ -107,8 +112,25 @@ public class View_GamePlay extends JFrame {
             countdown.setForeground(Color.LIGHT_GRAY);
             countdown.setValue(100);
             countdown.setStringPainted(true);
+            Timer executionTime = new Timer();
+            executionTime.scheduleAtFixedRate(new TimerTask() {
+                private int index = 0;
+                private int maxIndex = 100;
+                @Override
+                public void run() {
+                    if (maxIndex >= index) {
+                        countdown.setValue(maxIndex);
+                        maxIndex = maxIndex - 10;
+                    } else {
+                        enterTimeBoss = false;
+                        countdown.setValue(index);
+                        executionTime.cancel();
+                    }
+                }
+            }, 10, 900);
 
-            int timerDelay = 805;
+            /*
+            int timerDelay = 774;
             new javax.swing.Timer(timerDelay , new ActionListener() {
                 private int index = 0;
                 private int maxIndex = 100;
@@ -123,7 +145,7 @@ public class View_GamePlay extends JFrame {
                     }
                 }
             }).start();
-
+            */
             countdown.setValue(countdown.getMinimum());
         }
 
@@ -150,46 +172,15 @@ public class View_GamePlay extends JFrame {
             initiateController("stage.txt");
 
         }
-
+/*
         SwingWorker keyPress = new SwingWorker() {
             @Override
             protected Object doInBackground() throws Exception {
-                dummy.addKeyListener(new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
 
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-                        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                            enemyNotHurt.setVisible(false);
-                            enemyHurt.setVisible(true);
-                            attackPlayer.setVisible(true);
-                            idlePlayer.setVisible(false);
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (ec.getModelHealth() > 0) {
-                                pc.attackEnemy(ec);
-                                System.out.println("Enemy : " + ec.getEnemyModel().getName());
-                                System.out.println("Enemy : " + ec.getEnemyModel().getCurHealth());
-                            }
-                            enemyNotHurt.setVisible(true);
-                            enemyHurt.setVisible(false);
-                            attackPlayer.setVisible(false);
-                            idlePlayer.setVisible(true);
-                        }
-                    }
-                });
-                return null;
             }
         };
         keyPress.execute();
-
+*/
         frameMain.setSize(1366, 768);
         frameMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panelGamePlay.setLayout(null);
@@ -307,17 +298,28 @@ public class View_GamePlay extends JFrame {
         currMoney.setBounds(1216, 11, 300, 30);
         currMoney.setFont(new Font("", Font.BOLD, 20));
 
+        level.setForeground(Color.BLACK);
+        level.setBounds(1106, 51, 300, 30);
+        level.setFont(new Font("", Font.BOLD, 20));
+
+        currLevel.setForeground(Color.BLACK);
+        currLevel.setBounds(1216, 51, 300, 30);
+        currLevel.setFont(new Font("", Font.BOLD, 20));
+        currLevel.setText("0");
+
         attack.setForeground(Color.RED);
-        attack.setBounds(1106, 51, 300, 30);
+        attack.setBounds(1106, 91, 300, 30);
         attack.setFont(new Font("", Font.BOLD, 20));
 
         currAttack.setForeground(Color.RED);
-        currAttack.setBounds(1216, 51, 300, 30);
+        currAttack.setBounds(1216, 91, 300, 30);
         currAttack.setFont(new Font("", Font.BOLD, 20));
 
         panelGamePlay.add(countdown);
         panelGamePlay.add(currMoney);
         panelGamePlay.add(money);
+        panelGamePlay.add(level);
+        panelGamePlay.add(currLevel);
         panelGamePlay.add(attack);
         panelGamePlay.add(currAttack);
         panelGamePlay.add(shop);
@@ -325,6 +327,40 @@ public class View_GamePlay extends JFrame {
         shop.setBounds(1166, 665, 200, 53);
         frameMain.getContentPane().add(View_GamePlay.getPanelGamePlay());
         frameMain.setVisible(true);
+
+        dummy.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    enemyNotHurt.setVisible(false);
+                    enemyHurt.setVisible(true);
+                    attackPlayer.setVisible(true);
+                    idlePlayer.setVisible(false);
+                    pc.plusModelMoney(pc.getModelAttPower());
+                }
+            }
+
+            @Override
+
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (ec.getModelHealth() > 0) {
+                        pc.attackEnemy(ec);
+                        System.out.println("Enemy : " + ec.getEnemyModel().getName());
+                        System.out.println("Enemy : " + ec.getEnemyModel().getCurHealth());
+                    }
+                    enemyNotHurt.setVisible(true);
+                    enemyHurt.setVisible(false);
+                    attackPlayer.setVisible(false);
+                    idlePlayer.setVisible(true);
+                }
+            }
+        });
         Double temp;
         SwingWorker swingWork = new SwingWorker() {
             @Override
@@ -341,12 +377,16 @@ public class View_GamePlay extends JFrame {
                             }
                             currMoney.setText(String.valueOf(pc.getModelMoney()));
                             currAttack.setText(String.valueOf(pc.getModelAttPower()) + " (" + String.valueOf(new DecimalFormat("##.##").format(((float) pc.getModelAttPower() / (float) ec.getEnemyModel().getMaxHealth()) * 100) + "%" + ")"));
+                            currLevel.setText(String.valueOf(View_GamePlay.pc.getModelLevel()));
 
                             if (ec.getEnemyModel().isBoss()) {
+                                countdown.setVisible(true);
                                 viewTimeBoss();
+                            } else {
+                                countdown.setVisible(false);
                             }
                         }
-                    }, 60, 1);
+                    }, 10, 1);
 
                     int cur = stages.getCurStage();
                     gc.setWorldMonster();
@@ -382,6 +422,68 @@ public class View_GamePlay extends JFrame {
         new View_GamePlay();
     }
 
+    public static void focusKey() {
+        dummy.requestFocusInWindow();
+    }
+
+    public static void runThread() {
+        SwingWorker swingWork = new SwingWorker() {
+            @Override
+            protected Object doInBackground() throws Exception {
+                while (!isCancelled()) {
+                    Timer execution = new Timer();
+                    execution.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (((int) (((float) ec.getEnemyModel().getCurHealth() / (float) ec.getEnemyModel().getMaxHealth()) * 100)) >= 0) {
+                                progressbar.setValue((int) (((float) ec.getEnemyModel().getCurHealth() / (float) ec.getEnemyModel().getMaxHealth()) * 100));
+                            } else {
+                                progressbar.setValue(0);
+                            }
+                            currMoney.setText(String.valueOf(pc.getModelMoney()));
+                            currAttack.setText(String.valueOf(pc.getModelAttPower()) + " (" + String.valueOf(new DecimalFormat("##.##").format(((float) pc.getModelAttPower() / (float) ec.getEnemyModel().getMaxHealth()) * 100) + "%" + ")"));
+
+                            if (ec.getEnemyModel().isBoss()) {
+                                countdown.setVisible(true);
+                                viewTimeBoss();
+                            } else {
+                                countdown.setVisible(false);
+                            }
+                        }
+                    }, 60, 1);
+
+                    int cur = stages.getCurStage();
+                    gc.setWorldMonster();
+
+                    while (cur < gc.getWorldStage().getGameStage().size()) {
+                        for (int i = 0; i < gc.getWorldHeroCount(); i++) {
+                            System.out.println(gc.getWorldHero(i).getThreadName());
+                            gc.getWorldHero(i).start();
+                        }
+                        System.out.println(gc.getWorldHeroCount());
+                        synchronized (gc.getWorldHero(0).getHeroThread()) {
+                            try {
+                                gc.getWorldHero(0).getHeroThread().wait();
+                                gc.getWorldPlayer().plusMoney(ec.getModelMoneyLoot());
+                                cur++;
+                                gc.getWorldStage().setCurStage(cur);
+                                gc.getWorldHero(0).getHeroThread().sleep(1);
+                            } catch (InterruptedException e) {
+                                System.out.println("World Interrupted");
+                            }
+                        }
+                        gc.setWorldThreadToNull();
+                        gc.setWorldMonster();
+                        ec.setEnemyModel(gc.getWorldCurEnemy());
+                    }
+                    cancel(true);
+                }
+                return null;
+            }
+        };
+        swingWork.execute();
+    }
+
     public static void setFrameMain(JFrame frameMain) {
         View_GamePlay.frameMain = frameMain;
     }
@@ -410,11 +512,15 @@ public class View_GamePlay extends JFrame {
         shop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frameMain.setVisible(false);
-                try {
-                    View_Shop.buildViewShop();
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
+                if (!haveBuiltShop) {
+                    try {
+                        View_Shop.buildViewShop();
+                        haveBuiltShop = true;
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    View_Shop.getFrameShop().setVisible(true);
                 }
             }
         });

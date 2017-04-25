@@ -201,5 +201,6 @@ public class Player extends MainCharacter {
    */
   public void levelUp() {
     level++;
+    setAttPower(15);
   }
 }

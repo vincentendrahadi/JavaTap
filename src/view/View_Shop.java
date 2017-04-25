@@ -1,7 +1,10 @@
 package view;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.View;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,6 +40,12 @@ public class View_Shop extends JFrame {
     private static JButton disgustButton = new JButton("Unlock Disgust");
     private static JButton fearButton = new JButton("Unlock Fear");
 
+    private static JLabel playerPrice = new JLabel("5000");
+    private static JLabel joyPrice = new JLabel("6000");
+    private static JLabel sadnessPrice = new JLabel("7000");
+    private static JLabel angerPrice = new JLabel("8000");
+    private static JLabel disgustPrice = new JLabel("9000");
+    private static JLabel fearPrice = new JLabel("10000");
 
     private static boolean joy = true;
     private static boolean joyUnlocked = false;
@@ -68,7 +77,7 @@ public class View_Shop extends JFrame {
 
         //Set Lower panel
         lowerPanel.setLayout(null);
-        lowerPanel.setBounds(0,708,1366,60);
+        lowerPanel.setBounds(0,680,1366,60);
         lowerPanel.setBackground(Color.BLACK);
         lowerPanel.setVisible(true);
 
@@ -113,19 +122,16 @@ public class View_Shop extends JFrame {
         sadnessButton.setBackground(Color.DARK_GRAY);
         sadnessButton.setForeground(new Color(44,214,205));
 
-        JLabel playerPrice = new JLabel("500");
         playerPrice.setLayout(null);
         playerPrice.setFont(new Font("", Font.PLAIN,30));
         playerPrice.setForeground(Color.WHITE);
         playerPrice.setBounds(130,120,200,50);
 
-        JLabel joyPrice = new JLabel("600");
         joyPrice.setLayout(null);
         joyPrice.setFont(new Font("", Font.PLAIN,30));
         joyPrice.setForeground(Color.WHITE);
         joyPrice.setBounds(130,300,200,50);
 
-        JLabel sadnessPrice = new JLabel("700");
         sadnessPrice.setLayout(null);
         sadnessPrice.setFont(new Font("", Font.PLAIN,30));
         sadnessPrice.setForeground(Color.WHITE);
@@ -195,19 +201,16 @@ public class View_Shop extends JFrame {
         fearButton.setBackground(Color.DARK_GRAY);
         fearButton.setForeground(new Color(44,214,205));
 
-        JLabel angerPrice = new JLabel("800");
         angerPrice.setLayout(null);
         angerPrice.setFont(new Font("", Font.PLAIN,30));
         angerPrice.setForeground(Color.WHITE);
         angerPrice.setBounds(130,120,200,50);
 
-        JLabel disgustPrice = new JLabel("900");
         disgustPrice.setLayout(null);
         disgustPrice.setFont(new Font("", Font.PLAIN,30));
         disgustPrice.setForeground(Color.WHITE);
         disgustPrice.setBounds(130,300,200,50);
 
-        JLabel fearPrice = new JLabel("1000");
         fearPrice.setLayout(null);
         fearPrice.setFont(new Font("", Font.PLAIN,30));
         fearPrice.setForeground(Color.WHITE);
@@ -365,7 +368,6 @@ public class View_Shop extends JFrame {
     }
 
     public static boolean isBuild() {
-
         return build;
     }
 
@@ -374,39 +376,36 @@ public class View_Shop extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frameShop.setVisible(false);
-                View_GamePlay.getFrameMain().setVisible(true);
             }
         });
 
         playerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                System.out.println(View_GamePlay.pc.getModelMoney());
+                System.out.println(Integer.parseInt(playerPrice.getText()));
+                if (View_GamePlay.pc.getModelMoney() >= Integer.parseInt(playerPrice.getText())) {
+                    View_GamePlay.pc.plusModelMoney((-1) * Integer.parseInt(playerPrice.getText()));
+                    View_GamePlay.pc.modelLevelUp();
+                    View_GamePlay.focusKey();
+                    View_GamePlay.runThread();
+                    //View_GamePlay.currLevel.setText(String.valueOf(View_GamePlay.pc.getModelLevel()));
+                }
             }
-
         });
 
         joyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!joyUnlocked) {
+                    sadnessButton.setEnabled(true);
                     View_GamePlay.gc.setWorldThreadToNull();
                     joyButton.setText("Level up Joy");
                     joyUnlocked = true;
                     View_GamePlay.setJoyHero();
                     View_GamePlay.gc.addWorldHero();
-                    try {
-                        View_GamePlay.buildViewGamePlay();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                sadness = true;
-                if(sadness)
-                {
-                    sadnessButton.setEnabled(true);
+                    View_GamePlay.focusKey();
+                    View_GamePlay.runThread();
                 }
             }
 
@@ -416,14 +415,14 @@ public class View_Shop extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!sadnessUnlocked) {
+                    angerButton.setEnabled(true);
+                    View_GamePlay.gc.setWorldThreadToNull();
                     sadnessButton.setText("Level up Sadness");
                     sadnessUnlocked = true;
-
-                }
-
-                anger =  true;
-                if(anger){
-                    angerButton.setEnabled(true);
+                    View_GamePlay.setSadnessHero();
+                    View_GamePlay.gc.addWorldHero();
+                    View_GamePlay.focusKey();
+                    View_GamePlay.runThread();
                 }
             }
         });
@@ -432,13 +431,14 @@ public class View_Shop extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!angerUnlocked) {
-                    angerButton.setText("Level up Anger");
-                    angerUnlocked = true;
-                }
-
-                disgust = true;
-                if(disgust){
                     disgustButton.setEnabled(true);
+                    View_GamePlay.gc.setWorldThreadToNull();
+                    angerButton.setText("Level up Sadness");
+                    angerUnlocked = true;
+                    View_GamePlay.setAngerHero();
+                    View_GamePlay.gc.addWorldHero();
+                    View_GamePlay.focusKey();
+                    View_GamePlay.runThread();
                 }
             }
         });
@@ -446,13 +446,14 @@ public class View_Shop extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!disgustUnlocked) {
-                    disgustButton.setText("Level up Disgust");
-                    disgustUnlocked = true;
-                }
-
-                fear = true;
-                if(fear){
                     fearButton.setEnabled(true);
+                    View_GamePlay.gc.setWorldThreadToNull();
+                    disgustButton.setText("Level up Sadness");
+                    disgustUnlocked = true;
+                    View_GamePlay.setDisgustHero();
+                    View_GamePlay.gc.addWorldHero();
+                    View_GamePlay.focusKey();
+                    View_GamePlay.runThread();
                 }
             }
 
@@ -462,8 +463,13 @@ public class View_Shop extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (!fearUnlocked) {
-                    fearButton.setText("Level up Fear");
+                    View_GamePlay.gc.setWorldThreadToNull();
+                    fearButton.setText("Level up Sadness");
                     fearUnlocked = true;
+                    View_GamePlay.setFearHero();
+                    View_GamePlay.gc.addWorldHero();
+                    View_GamePlay.focusKey();
+                    View_GamePlay.runThread();
                 }
             }
 
