@@ -1,5 +1,6 @@
-package enemy;
+package UnitTest.enemyTest;
 
+import enemy.RegularEnemy;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,31 +10,26 @@ import static org.junit.Assert.*;
  */
 public class RegularEnemyTest {
   @Test
-  public void getName() throws Exception {
-  }
+  public void TestingRegEnemy() {
+    RegularEnemy x;
 
-  @Test
-  public void isAlive() throws Exception {
-  }
+    System.out.print("TESTING CTOR OF REGULAR ENEMY... ");
+    x = new RegularEnemy(100,"Boombayah");
+    assertTrue(x.getName() == "Boombayah");
+    assertTrue(x.isAlive() == true);
+    assertTrue(x.getCurHealth() == 100);
+    assertTrue(x.getMaxHealth() == 100);
+    assertTrue(x.getMoneyLoot() == 100);
+    assertTrue(x.isBoss() == true);
+    System.out.println("DONE!");
 
-  @Test
-  public void getCurHealth() throws Exception {
+    System.out.print("TESTING CALCULATE REGULAR ENEMY'S HEALTH... ");
+    x.calculateHealth(50);
+    assertTrue(x.getCurHealth() == 50);
+    x.setCurHealth(100);
+    x.calculateHealth(110);
+    assertTrue(x.getCurHealth() == 0);
+    assertTrue(x.isAlive() == false);
+    System.out.println("DONE!");
   }
-
-  @Test
-  public void getMaxHealth() throws Exception {
-  }
-
-  @Test
-  public void getMoneyLoot() throws Exception {
-  }
-
-  @Test
-  public void isBoss() throws Exception {
-  }
-
-  @Test
-  public void calculateHealth() throws Exception {
-  }
-
 }
