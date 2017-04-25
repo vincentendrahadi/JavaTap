@@ -128,24 +128,6 @@ public class View_GamePlay extends JFrame {
                     }
                 }
             }, 10, 900);
-
-            /*
-            int timerDelay = 774;
-            new javax.swing.Timer(timerDelay , new ActionListener() {
-                private int index = 0;
-                private int maxIndex = 100;
-                public void actionPerformed(ActionEvent e) {
-                    if (maxIndex >= index) {
-                        countdown.setValue(maxIndex);
-                        maxIndex = maxIndex - 10;
-                    } else {
-                        enterTimeBoss = false;
-                        countdown.setValue(index);
-                        ((javax.swing.Timer)e.getSource()).stop(); // stop the timer
-                    }
-                }
-            }).start();
-            */
             countdown.setValue(countdown.getMinimum());
         }
 
@@ -160,6 +142,7 @@ public class View_GamePlay extends JFrame {
         ec = new EnemyController(stages.getCurEnemy());
         world = new World(p, hero, stages);
         gc = new GameplayController(world);
+        p.plusMoney(1000000);
         gc.addWorldHero();
     }
 
@@ -341,7 +324,6 @@ public class View_GamePlay extends JFrame {
                     enemyHurt.setVisible(true);
                     attackPlayer.setVisible(true);
                     idlePlayer.setVisible(false);
-                    pc.plusModelMoney(pc.getModelAttPower());
                 }
             }
 
@@ -358,6 +340,7 @@ public class View_GamePlay extends JFrame {
                     enemyHurt.setVisible(false);
                     attackPlayer.setVisible(false);
                     idlePlayer.setVisible(true);
+                    pc.plusModelMoney(pc.getModelAttPower());
                 }
             }
         });

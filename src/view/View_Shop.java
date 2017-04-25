@@ -375,6 +375,7 @@ public class View_Shop extends JFrame {
         backToGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                View_GamePlay.focusKey();
                 frameShop.setVisible(false);
             }
         });
@@ -382,12 +383,9 @@ public class View_Shop extends JFrame {
         playerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println(View_GamePlay.pc.getModelMoney());
-                System.out.println(Integer.parseInt(playerPrice.getText()));
                 if (View_GamePlay.pc.getModelMoney() >= Integer.parseInt(playerPrice.getText())) {
                     View_GamePlay.pc.plusModelMoney((-1) * Integer.parseInt(playerPrice.getText()));
                     View_GamePlay.pc.modelLevelUp();
-                    View_GamePlay.focusKey();
                     View_GamePlay.runThread();
                     //View_GamePlay.currLevel.setText(String.valueOf(View_GamePlay.pc.getModelLevel()));
                 }
@@ -397,15 +395,17 @@ public class View_Shop extends JFrame {
         joyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (!joyUnlocked) {
-                    sadnessButton.setEnabled(true);
-                    View_GamePlay.gc.setWorldThreadToNull();
-                    joyButton.setText("Level up Joy");
-                    joyUnlocked = true;
-                    View_GamePlay.setJoyHero();
-                    View_GamePlay.gc.addWorldHero();
-                    View_GamePlay.focusKey();
-                    View_GamePlay.runThread();
+                if (View_GamePlay.pc.getModelMoney() >= Integer.parseInt(joyPrice.getText())) {
+                    View_GamePlay.pc.plusModelMoney((-1) * Integer.parseInt(joyPrice.getText()));
+                    if (!joyUnlocked) {
+                        sadnessButton.setEnabled(true);
+                        View_GamePlay.gc.setWorldThreadToNull();
+                        joyButton.setText("Level up Joy");
+                        joyUnlocked = true;
+                        View_GamePlay.setJoyHero();
+                        View_GamePlay.gc.addWorldHero();
+                        View_GamePlay.runThread();
+                    }
                 }
             }
 
@@ -414,46 +414,54 @@ public class View_Shop extends JFrame {
         sadnessButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (!sadnessUnlocked) {
-                    angerButton.setEnabled(true);
-                    View_GamePlay.gc.setWorldThreadToNull();
-                    sadnessButton.setText("Level up Sadness");
-                    sadnessUnlocked = true;
-                    View_GamePlay.setSadnessHero();
-                    View_GamePlay.gc.addWorldHero();
-                    View_GamePlay.focusKey();
-                    View_GamePlay.runThread();
+                if (View_GamePlay.pc.getModelMoney() >= Integer.parseInt(sadnessPrice.getText())) {
+                    View_GamePlay.pc.plusModelMoney((-1) * Integer.parseInt(sadnessPrice.getText()));
+                    if (!sadnessUnlocked) {
+                        angerButton.setEnabled(true);
+                        View_GamePlay.gc.setWorldThreadToNull();
+                        sadnessButton.setText("Level up Sadness");
+                        sadnessUnlocked = true;
+                        View_GamePlay.setSadnessHero();
+                        View_GamePlay.gc.addWorldHero();
+                        View_GamePlay.runThread();
+                    }
                 }
+
             }
         });
 
         angerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (!angerUnlocked) {
-                    disgustButton.setEnabled(true);
-                    View_GamePlay.gc.setWorldThreadToNull();
-                    angerButton.setText("Level up Sadness");
-                    angerUnlocked = true;
-                    View_GamePlay.setAngerHero();
-                    View_GamePlay.gc.addWorldHero();
-                    View_GamePlay.focusKey();
-                    View_GamePlay.runThread();
+                if (View_GamePlay.pc.getModelMoney() >= Integer.parseInt(angerPrice.getText())) {
+                    View_GamePlay.pc.plusModelMoney((-1) * Integer.parseInt(sadnessPrice.getText()));
+                    if (!angerUnlocked) {
+                        disgustButton.setEnabled(true);
+                        View_GamePlay.gc.setWorldThreadToNull();
+                        angerButton.setText("Level up Sadness");
+                        angerUnlocked = true;
+                        View_GamePlay.setAngerHero();
+                        View_GamePlay.gc.addWorldHero();
+                        View_GamePlay.runThread();
+                    }
                 }
+
             }
         });
         disgustButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (!disgustUnlocked) {
-                    fearButton.setEnabled(true);
-                    View_GamePlay.gc.setWorldThreadToNull();
-                    disgustButton.setText("Level up Sadness");
-                    disgustUnlocked = true;
-                    View_GamePlay.setDisgustHero();
-                    View_GamePlay.gc.addWorldHero();
-                    View_GamePlay.focusKey();
-                    View_GamePlay.runThread();
+                if (View_GamePlay.pc.getModelMoney() >= Integer.parseInt(disgustPrice.getText())) {
+                    View_GamePlay.pc.plusModelMoney((-1) * Integer.parseInt(disgustPrice.getText()));
+                    if (!disgustUnlocked) {
+                        fearButton.setEnabled(true);
+                        View_GamePlay.gc.setWorldThreadToNull();
+                        disgustButton.setText("Level up Sadness");
+                        disgustUnlocked = true;
+                        View_GamePlay.setDisgustHero();
+                        View_GamePlay.gc.addWorldHero();
+                        View_GamePlay.runThread();
+                    }
                 }
             }
 
@@ -462,14 +470,16 @@ public class View_Shop extends JFrame {
         fearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (!fearUnlocked) {
-                    View_GamePlay.gc.setWorldThreadToNull();
-                    fearButton.setText("Level up Sadness");
-                    fearUnlocked = true;
-                    View_GamePlay.setFearHero();
-                    View_GamePlay.gc.addWorldHero();
-                    View_GamePlay.focusKey();
-                    View_GamePlay.runThread();
+                if (View_GamePlay.pc.getModelMoney() >= Integer.parseInt(fearPrice.getText())) {
+                    View_GamePlay.pc.plusModelMoney((-1) * Integer.parseInt(fearPrice.getText()));
+                    if (!fearUnlocked) {
+                        View_GamePlay.gc.setWorldThreadToNull();
+                        fearButton.setText("Level up Sadness");
+                        fearUnlocked = true;
+                        View_GamePlay.setFearHero();
+                        View_GamePlay.gc.addWorldHero();
+                        View_GamePlay.runThread();
+                    }
                 }
             }
 
