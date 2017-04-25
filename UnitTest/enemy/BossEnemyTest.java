@@ -1,6 +1,7 @@
-package enemy;
+package UnitTest.enemyTest;
 
 import org.junit.Test;
+import enemy.BossEnemy;
 
 import static org.junit.Assert.*;
 
@@ -9,39 +10,33 @@ import static org.junit.Assert.*;
  */
 public class BossEnemyTest {
   @Test
-  public void getName() throws Exception {
-  }
+  public void ModifyBoss(){
+    BossEnemy x;
 
-  @Test
-  public void isAlive() throws Exception {
-  }
+    System.out.print("TESTING CTOR BOSS... ");
+    x = new BossEnemy(100,"Boombayah");
+    assertTrue(x.getName() == "Boombayah");
+    assertTrue(x.isAlive() == true);
+    assertTrue(x.getCurHealth() == 100);
+    assertTrue(x.getMaxHealth() == 100);
+    assertTrue(x.getMoneyLoot() == 100);
+    assertTrue(x.isBoss() == true);
+    assertTrue(x.getTimeLimit() == 10);
+    System.out.println("DONE!");
 
-  @Test
-  public void getCurHealth() throws Exception {
-  }
+    System.out.print("TESTING RESET BOSS CURRENT HEALTH... ");
+    x.setCurHealth(90);
+    x.resetCurHealth();
+    assertTrue(x.getCurHealth() == 100);
+    System.out.println("DONE!");
 
-  @Test
-  public void getMaxHealth() throws Exception {
+    System.out.print("TESTING CALCULATE BOSS HEALTH... ");
+    x.calculateHealth(50);
+    assertTrue(x.getCurHealth() == 50);
+    x.resetCurHealth();
+    x.calculateHealth(110);
+    assertTrue(x.getCurHealth() == 0);
+    assertTrue(x.isAlive() == false);
+    System.out.println("DONE!");
   }
-
-  @Test
-  public void getMoneyLoot() throws Exception {
-  }
-
-  @Test
-  public void isBoss() throws Exception {
-  }
-
-  @Test
-  public void getTimeLimit() throws Exception {
-  }
-
-  @Test
-  public void resetCurHealth() throws Exception {
-  }
-
-  @Test
-  public void calculateHealth() throws Exception {
-  }
-
 }
