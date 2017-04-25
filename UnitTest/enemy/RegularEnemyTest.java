@@ -20,7 +20,7 @@ public class RegularEnemyTest {
     assertTrue(x.getCurHealth() == 100);
     assertTrue(x.getMaxHealth() == 100);
     assertTrue(x.getMoneyLoot() == 100);
-    assertTrue(x.isBoss() == true);
+    assertTrue(x.isBoss() == false);
     System.out.println("DONE!");
 
     System.out.print("TESTING CALCULATE REGULAR ENEMY'S HEALTH... ");
