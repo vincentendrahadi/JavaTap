@@ -54,7 +54,6 @@ public class View_GamePlay extends JFrame {
     public static JLabel level = new JLabel("Level  : ");
     public static JLabel currLevel = new JLabel();
 
-    private static JLabel executionTime = new JLabel();
     private static JTextField dummy = new JTextField();
     private static JProgressBar progressbar = new JProgressBar();
     private static JProgressBar countdown = new JProgressBar();
@@ -118,17 +117,23 @@ public class View_GamePlay extends JFrame {
                 private int maxIndex = 100;
                 @Override
                 public void run() {
-                    if (maxIndex >= index) {
-                        countdown.setValue(maxIndex);
-                        maxIndex = maxIndex - 10;
+                    if (ec.getEnemyModel().isBoss()) {
+                        if (maxIndex >= index) {
+                            countdown.setValue(maxIndex);
+                            maxIndex = maxIndex - 10;
+                        } else {
+                            enterTimeBoss = false;
+                            countdown.setValue(index);
+                            executionTime.cancel();
+                        }
                     } else {
                         enterTimeBoss = false;
-                        countdown.setValue(index);
                         executionTime.cancel();
                     }
+
                 }
             }, 10, 900);
-            countdown.setValue(countdown.getMinimum());
+            //countdown.setValue(countdown.getMinimum());
         }
 
     }
@@ -366,6 +371,8 @@ public class View_GamePlay extends JFrame {
                                 countdown.setVisible(true);
                                 viewTimeBoss();
                             } else {
+                                //executionTime.cancel();
+                                //executionTime.purge();
                                 countdown.setVisible(false);
                             }
                         }
@@ -430,6 +437,8 @@ public class View_GamePlay extends JFrame {
                                 countdown.setVisible(true);
                                 viewTimeBoss();
                             } else {
+                                //executionTime.cancel();
+                                //executionTime.purge();
                                 countdown.setVisible(false);
                             }
                         }
@@ -507,5 +516,6 @@ public class View_GamePlay extends JFrame {
                 }
             }
         });
+        //executionTime = new Timer();
     }
 }

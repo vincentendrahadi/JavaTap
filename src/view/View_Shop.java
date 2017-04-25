@@ -46,6 +46,8 @@ public class View_Shop extends JFrame {
     private static JLabel angerPrice = new JLabel("8000");
     private static JLabel disgustPrice = new JLabel("9000");
     private static JLabel fearPrice = new JLabel("10000");
+    private static JLabel moneyCapacityText = new JLabel("Money  : ");
+    private static JLabel moneyCapacity = new JLabel();
 
     private static boolean joy = true;
     private static boolean joyUnlocked = false;
@@ -103,6 +105,15 @@ public class View_Shop extends JFrame {
         leftPanel.setBounds(23,60,330,648);
         leftPanel.setBackground(Color.BLACK);
         leftPanel.setVisible(true);
+
+        moneyCapacityText.setForeground(Color.YELLOW);
+        moneyCapacityText.setBounds(0,0,300,30);
+        moneyCapacityText.setFont(new Font( "", Font.BOLD, 20));
+
+        moneyCapacity.setForeground(Color.YELLOW);
+        moneyCapacity.setBounds(0, 0, 300, 30);
+        moneyCapacity.setFont(new Font("", Font.BOLD, 20));
+
 
         playerButton.setFocusPainted(false);
         playerButton.setLayout(null);
