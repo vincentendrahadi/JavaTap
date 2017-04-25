@@ -1,0 +1,6 @@
+dummy 0 0.5
+Joy 50 0.5
+Sadness 100 1
+Anger 150 1.5
+Disgust 300 2
+Fear 500 2.5
