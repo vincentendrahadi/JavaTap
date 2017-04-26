@@ -1,67 +1,47 @@
-package maincharacter.player;
+package test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.Assert.*;
+import enemy.RegularEnemy;
+import maincharacter.player.Player;
+import org.junit.jupiter.api.Test;
 
 /**
- * Created by stevannohero on 4/26/17.
+ * Created by Vincent Endrahadi on 4/26/17.
  */
 public class PlayerTest {
-  @Test
-  public void getPlayerThread() throws Exception {
-  }
-
+  
   @Test
   public void getLevel() throws Exception {
+    Player h = new Player("asd");
+    assertEquals(0, h.getLevel());
+    h.levelUp();
+    assertEquals(1, h.getLevel());
   }
-
+  
   @Test
   public void getAttPower() throws Exception {
+    Player h = new Player("asd");
+    assertEquals(5, h.getAttPower());
+    h.levelUp();
+    assertEquals(20, h.getAttPower());
   }
-
+  
   @Test
-  public void setAttPower() throws Exception {
+  public void getThereIsEnemy() {
+    Player h = new Player("Player");
+    RegularEnemy e = new RegularEnemy(10, "adfsa");
+    assertEquals(false, h.getThereIsEnemy());
+    h.setEnemy(e);
+    assertEquals(true, h.getThereIsEnemy());
   }
-
+  
   @Test
-  public void getThereIsEnemy() throws Exception {
+  public void attackEnemy() {
+    RegularEnemy e = new RegularEnemy(100, "aaa");
+    Player h = new Player("AAA");
+    h.attack(e);
+    assertEquals(95, e.getCurHealth());
   }
-
-  @Test
-  public void setThereIsEnemy() throws Exception {
-  }
-
-  @Test
-  public void getMoney() throws Exception {
-  }
-
-  @Test
-  public void plusMoney() throws Exception {
-  }
-
-  @Test
-  public void setEnemy() throws Exception {
-  }
-
-  @Test
-  public void setThreadNull() throws Exception {
-  }
-
-  @Test
-  public void run() throws Exception {
-  }
-
-  @Test
-  public void start() throws Exception {
-  }
-
-  @Test
-  public void attack() throws Exception {
-  }
-
-  @Test
-  public void levelUp() throws Exception {
-  }
-
+  
 }
