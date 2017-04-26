@@ -25,7 +25,7 @@ public class BossEnemyTest {
     System.out.println("DONE!");
 
     System.out.print("TESTING RESET BOSSENEMY CURRENT HEALTH... ");
-    x.setCurHealth(90);
+    x.calculateHealth(50);
     x.resetCurHealth();
     assertTrue(x.getCurHealth() == 100);
     System.out.println("DONE!");
