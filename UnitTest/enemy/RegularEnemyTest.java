@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  */
 public class RegularEnemyTest {
   @Test
-  public void TestingRegEnemy() {
+  public void testingRegEnemy() {
     RegularEnemy x;
 
     System.out.print("TESTING CTOR OF REGULAR ENEMY... ");
