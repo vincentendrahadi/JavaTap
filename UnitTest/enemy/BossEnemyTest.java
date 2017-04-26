@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  */
 public class BossEnemyTest {
   @Test
-  public void TestingBoss() {
+  public void testingBoss() {
     BossEnemy x;
 
     System.out.print("TESTING CTOR OF BOSSENEMY... ");
