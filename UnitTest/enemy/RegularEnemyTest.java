@@ -26,8 +26,7 @@ public class RegularEnemyTest {
     System.out.print("TESTING CALCULATE REGULAR ENEMY'S HEALTH... ");
     x.calculateHealth(50);
     assertTrue(x.getCurHealth() == 50);
-    x.setCurHealth(100);
-    x.calculateHealth(110);
+    x.calculateHealth(60);
     assertTrue(x.getCurHealth() == 0);
     assertTrue(x.isAlive() == false);
     System.out.println("DONE!");
